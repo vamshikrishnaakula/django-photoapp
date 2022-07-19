@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+</html>
+<style>
+  body{
+    
+   background-color: coral;
+  }
+ 
+</style>
+
+
+<body>
+  <div style="margin-top: 20%; margin-center;width:300px">
+   <form action="add1" class="d-flex" method='post' >{% csrf_token %}
+      <input class="form-control" placeholder="ROLLNO" name="num2" >
+       <button class="btn btn-primary" type="submit">GO</button>
+        
+    </form>
+  </div>
+</body>
+</body>
+
+</html>
+{% endblock content %}
+
+
+
+
+ 
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Document</title>>
+</head>
+<body>
+    <form action="add">
+    number1:<input type="text" name="num1">
+    number2:<input type="text" name="num2">
+    <input type="submit">
+</body>
+</html>
+
