@@ -3,17 +3,15 @@
 {% block content %}
 
 </table>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>    
+</head>
 <style>
 body {
     background-color: ;
 }
 </style>
-<script>
-  function myFunction() {
- 
-    alert("Hello! I am an alert box!!");
-  }
-  </script>
+
 
 
     <body>
@@ -41,7 +39,7 @@ body {
                     
                     <div class="mb-4">
                       
-                        <form action="UPDATE" method="POST">
+                        <form id="contactForm1" action="UPDATE" method="post">
                             {% csrf_token %}
                         
                             <label for="exampleInputEmail1" class="form-label">BIb</label>
@@ -63,6 +61,69 @@ body {
                         <h3>{{message}}</h3>
                         
                 </div>
+                <script>
+                    var frm = $('#contactForm1');
+                    var formData = new FormData(document.getElementsByName('')[0]);
+                    frm.submit(function (e) {
+                        console.log("called")
+                        var form = $(this);
+                        e.preventDefault();
+                            $.ajax(
+                                {
+                                    type:"POST",
+                                    url: frm.attr('action'),
+                                    {% comment %} data:{
+                                              BiB : $('#BiB').val(),
+                                            Chipcode1 : $('#Chipcode1').val(),
+                                            Chipcode2 : $('#Chipcode2').val(),
+                                            csrfmiddlewaretoken: '{{ csrf_token }}',
+                                            dataType: "json",
+                                    }, {% endcomment %}
+                                    data: form.serialize(),
+                                    success: function( data )
+                                    {
+                                       alert("inserted");
+                                    },
+                                    error:function()
+                                    {
+                                        alert("error is there");
+                                    }
+                                });
+                        
+                
+                    });  
+                </script>
+                {% comment %} <script>
+                    $('#form').on('submit', function(e){
+                        
+                    e.preventDefault();
+                    
+                      $.ajax({
+                           type : "POST", 
+                           url: "{% url 'UPDATE' %}",
+                           data: {
+                            BiB : $('#BiB').val(),
+                            Chipcode1 : $('#Chipcode1').val(),
+                            Chipcode2 : $('#Chipcode2').val(),
+                            csrfmiddlewaretoken: '{{ csrf_token }}',
+                            dataType: "json",
+                    
+                           },
+                           
+                           success: function( data )
+                    {
+                       alert(inserted);
+                    },
+                    error:function()
+                    {
+                        alert("error is there");
+                    }
+                    
+                       });
+                    
+                    
+                            });    
+                 </script> {% endcomment %}
                 <div class="col-2">
 
                 </div>
