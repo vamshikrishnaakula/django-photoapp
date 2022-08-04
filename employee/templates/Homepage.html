@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+</html>
+<style>
+
+
+  body {
+    background-color: aliceblue;
+}
+  
+</style>
+
+ {% comment %} <h1><p style="color:white;">TIMING TECHNOLOGY INDIA PVT.LTD</p></h1> {% endcomment %}
+
+<body>
+ 
+  <div style="margin-top: 20%; margin-center;width:300px">
+    
+   <form action="add1" class="d-flex" method='post' autocomplete="off">{% csrf_token %}
+
+      <input class="form-control" placeholder="ROLLNO" name="num2" required>
+      
+       <button class="btn btn-primary" type="submit">GO</button>
+        
+    </form>
+  </div>
+
+</body>
+</body>
+
+</html>
+{% endblock content %}
+
+
+
+
+ 
+
+
+
+
+
