@@ -18,7 +18,14 @@ from django.contrib import admin
 from django.urls import path  
 from employee import views  
 urlpatterns = [  
-       path('', views.home),
+       path('', views.Homepage),
+       path('Help', views.help),
+       path('Home', views.ome),
+       path('Updates', views.updateinfo,name='Updates'),
+       path('Contacts', views.contacts,name='contacts'),
        path('add1',views.add1),
-       path('UPDATE',views.UPDATE), 
+       path('chipdata',views.chipdata,name='chipdata'),
+       path('photodata',views.photodata,name='photodata'),
+       path('showImage',views.showImage,name='showImage'),
+       path('update_fingerprints',views.update_fingerprints,name='update_fingerprints')
 ]  
