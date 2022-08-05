@@ -116,137 +116,6 @@ body {
 		}
 		return false;
 	} 
-	
-
-	/* function Capture_rti() {
-		try {
-			document.getElementById('txtStatusrti').value = "";
-			document.getElementById('imgFingerrti').src = "data:image/jpg;base64,";
-			document.getElementById('txtQualityrti').value = "";
-			document.getElementById('txtNFIQrti').value = "";
-			document.getElementById('txtIsoTemplaterti').value = "";
-			document.getElementById('txtIsoImagerti').value = "";
-			document.getElementById('txtRawDatarti').value = "";
-			document.getElementById('txtWsqDatarti').value = "";
-
-			var res = CaptureFinger(quality, timeout);
-			if (res.httpStaus) {
-				document.getElementById('txtStatusrti').value = "ErrorCode: " + res.data.ErrorCode + " ErrorDescription: " + res.data.ErrorDescription;
-				if (res.data.ErrorCode == "0") {
-					document.getElementById('imgFingerrti').src = "data:image/jpg;base64," + res.data.BitmapData;
-					document.getElementById('imgFingerrti1').value ="data:image/jpg;base64,"+res.data.BitmapData;
-					document.getElementById('txtQualityrti').value = res.data.Quality;
-					document.getElementById('txtNFIQrti').value = res.data.Nfiq;
-					document.getElementById('txtIsoTemplaterti').value = res.data.IsoTemplate;
-					document.getElementById('txtIsoImagerti').value = res.data.IsoImage;
-					document.getElementById('txtRawDatarti').value = res.data.RawData;
-					document.getElementById('txtWsqDatarti').value = res.data.WsqImage;
-				}
-			} else {
-				alert(res.err);
-			}
-		} catch (e) {
-			alert(e);
-		}
-		return false;
-	} */
-	{% comment %} var uri = "http://localhost:8367/bioenable/";
-	function GetNitgenInfo() {
-		return GetNitgenClient("info");
-	  }
-	  function CaptureFinger(quality, timeout) {
-		var NitgenRequest = { Quality: quality, TimeOut: timeout };
-		var jsondata = JSON.stringify(NitgenRequest);
-		return PostNitgenClient("capture", jsondata);
-	  }
-	  function VerifyFinger(ProbFMR, GalleryFMR) {
-		var NitgenRequest = { ProbTemplate: ProbFMR, GalleryTemplate: GalleryFMR };
-		var jsondata = JSON.stringify(NitgenRequest);
-		return PostNitgenClient("verify", jsondata);
-	  }
-	  function MatchFinger(quality, timeout, GalleryFMR) {
-		var NitgenRequest = {
-		  Quality: quality,
-		  TimeOut: timeout,
-		  GalleryTemplate: GalleryFMR,
-		};
-		var jsondata = JSON.stringify(NitgenRequest);
-		return PostNitgenClient("match", jsondata);
-	  }
-	  function GetPidData(BiometricArray) {
-		var req = new NitgenRequest(BiometricArray);
-		var jsondata = JSON.stringify(req);
-		return PostNitgenClient("getpiddata", jsondata);
-	  }
-	  function PostNitgenClient(method, jsonData) {
-		var res;
-		var httpStaus = false;
-		$.ajax({
-		  type: "POST",
-		  async: false,
-		  url: uri + method,
-		  contentType: "application/json; charset=utf-8",
-		  data: jsonData,
-		  dataType: "json",
-		  processData: false,
-		  success: function (data) {
-			httpStaus = true;
-			res = { httpStaus: httpStaus, data: data };
-		  },
-		  error: function (jqXHR, ajaxOptions, thrownError) {
-			res = { httpStaus: httpStaus, err: getHttpError(jqXHR) };
-		  },
-		});
-		return res;
-	  }
-	  function GetNitgenClient(method) {
-		var res;
-		var httpStaus = false;
-		$.ajax({
-		  type: "GET",
-		  async: false,
-		  url: uri + method,
-		  contentType: "application/json; charset=utf-8",
-		  processData: false,
-		  success: function (data) {
-			httpStaus = true;
-			res = { httpStaus: httpStaus, data: data };
-		  },
-		  error: function (jqXHR, ajaxOptions, thrownError) {
-			res = { httpStaus: httpStaus, err: getHttpError(jqXHR) };
-		  },
-		});
-		return res;
-	  }
-	  function getHttpError(jqXHR) {
-		var err = "Unhandled Exception";
-		if (jqXHR.status === 0) {
-		  err = "Service Unavailable";
-		} else if (jqXHR.status == 404) {
-		  err = "Requested page not found";
-		} else if (jqXHR.status == 500) {
-		  err = "Internal Server Error";
-		} else if (thrownError === "parsererror") {
-		  err = "Requested JSON parse failed";
-		} else if (thrownError === "timeout") {
-		  err = "Time out error";
-		} else if (thrownError === "abort") {
-		  err = "Ajax request aborted";
-		} else {
-		  err = "Unhandled Error";
-		}
-		return err;
-	  }
-	  function Biometric(BioType, BiometricData, Pos) {
-		this.BioType = BioType;
-		this.BiometricData = BiometricData;
-		this.Pos = Pos;
-	  }
-	  function NitgenRequest(BiometricArray) {
-		this.Biometrics = BiometricArray;
-	  }
-	   {% endcomment %}
-
     function Capture_rti() {
 		try {
 			document.getElementById('txtStatusrti').value = "";
@@ -677,10 +546,10 @@ function NitgenRequest(BiometricArray) {
 
 									<script>
 										function download() {
-											var dow = document.getElementById("download");
+											//var dow = document.getElementById("download");
 											var imagedata = document.getElementById("CANVAS").toDataURL("image/png")
 												.replace("image/jpg", "image/octet-stream");
-											dow.setAttribute("href", imagedata);
+											//dow.setAttribute("href", imagedata);
 											 
 											document.getElementById("webimg").value = imagedata;
 											//console.log(document.getElementById("webimg").value )
@@ -717,218 +586,149 @@ function NitgenRequest(BiometricArray) {
 										}
 									</script>
 							 
-						</div>			  
-{% comment %} 
-                    </div>
-                    <div class="fingerprintStorageDiv"> {% endcomment %}
-                      
-                      
-{% comment %}                       
-                    </div>
-                    <div class="mt-3 "> {% endcomment %}
+						</div>	
+				
+								
+                    <div class="mt-3 ">
                         <div class='col-1'style="margin-left: 30px;width:605px"> 
-                                    <table style="width:100%">
-										<body onload="download()">
-
-											{% comment %} <h1>"The value for number is: " <span id="myText"></span></h1> {% endcomment %}
-										  
-										  </body>
-                                      <th>
-                                        <label>L.T.I</label>
-									 <form id="LTI" action="update_fingerprints" method="POST">
+							{% comment %} <form id="LTI-RTI" action="update_fingerprints" method="POST"> {% endcomment %}
+                               <table style="width:100%">
+								  <tr>
+									<form id="LTI" action="update_fingerprints" method="POST">
 										{%csrf_token%}
-                                        <img src="" style="width: 150px; height:150px; border-radius: 40%;" id="imgFinger" name="fingerprint">
-                                        <button class="btn btn-primary" id="btnCapture" onclick="return Capture()" type="button" style="margin-top:10px;  margin-right: 55px; ">Capture LTI</button>
-										<a id="fingerprint" name="src" type="text" style="display: none;"></a> 
-										<input type="submit"></a> 
-										{% comment %} <canvas id="imgFinger" name="src"></canvas> {% endcomment %}
-										 <table>
-											<tr>
-											  <td style="display: none;"><input id="txtStatus"
-												type="text" name="txtStatus" style="width: 100%" /></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><input id="txtQuality"
-												type="text" name="txtQuality" style="width: 100%" /></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><input id="txtNFIQ" type="text"
-												name="txtNFIQ" style="width: 100%" /></td>
-											</tr>
-								
-											<tr>
-											  <td style="display: none;"><textarea id="txtIsoTemplate"
-												  name="txtIsoTemplate" style="width: 100%"></textarea></td>
-											</tr>
-								
-											<tr>
-											  <td style="display: none;"><input type="text"
-												id="runsession" name="runsession" style="width: 100%"></td>
-											</tr>
-								
-											<tr>
-											  <td style="display: none;"><textarea id="imgFinger1"
-												  name="imgFinger1" style="width: 100%"></textarea></td>
-											</tr>
-											
-											<tr>
-											  <td style="display: none;"><textarea id="imgFingerrti1"
-												  name="imgFingerrti1" style="width: 100%"></textarea></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><textarea id="txtRawData"
-												  name="txtRawData" style="width: 100%" ></textarea></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><textarea id="txtWsqData"
-												  name="txtWsqData" style="width: 100%" ></textarea></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><textarea id="txtIsoImage"
-												  name="txtIsoImage" style="width: 100%" ></textarea></td>
-											</tr>
-								
-											<tr>
-											  <td style="display: none;"><input id="txtStatusrti"
-												type="text" name="txtStatusrti" style="width: 100%" /></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><input id="txtQualityrti"
-												type="text" name="txtQualityrti" style="width: 100%" /></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><input id="txtNFIQrti"
-												type="text" name="txtNFIQrti" style="width: 100%" /></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><textarea id="txtIsoTemplaterti"
-												  name="txtIsoTemplaterti" style="width: 100%" ></textarea></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><textarea id="txtRawDatarti"
-												  name="txtRawDatarti" style="width: 100%" ></textarea></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><textarea id="txtWsqDatarti"
-												  name="txtWsqDatarti" style="width: 100%" ></textarea></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><textarea id="txtIsoImagerti"
-												  style="width: 100%" ></textarea></td>
-											</tr>
-										  </table>
-										  
-										  </form>
-                                        </th>
-                                      </table> 
-                                     </form> 
-									{% comment %} <div class='col-1' style='margin-left: 1050px'> {% endcomment %}
+										<td><label>L.T.I</label>
+											<table>
+												<tr>
+													<td style="display:none">txtStatus:<input id="txtStatus" type="text"
+															name="txtStatus" style="width: 100%" /></td>
+												</tr>
+												<tr>
+													<td style="display:none">txtQuality:<input id="txtQuality" type="text"
+															name="txtQuality" style="width: 100%" /></td>
+												</tr>
+												<tr>
+													<td style="display:none">txtNFIQ:<input id="txtNFIQ" type="text" name="txtNFIQ"
+															style="width: 100%" /></td>
+												</tr>
+					
+												<tr>
+													<td style="display:none">txtIsoTemplate:<textarea id="txtIsoTemplate"
+															name="txtIsoTemplate" style="width: 100%"></textarea></td>
+												</tr>
+					
+												<tr>
+													<td style="display:none">runsession:<input type="text" id="runsession"
+															name="runsession" style="width: 100%"></td>
+												</tr>
+					
+												<tr>
+													<td style="display:none">imgFinger1:<textarea id="imgFinger1" name="imgFinger1"
+															style="width: 100%"></textarea></td>
+												</tr>
 
-                                      </th>
-                                        <th>
-                                          <label>R.T.I</label>
-										  <form id="RTI" action="update_fingerprints" method="POST">
-											{%csrf_token%}
-                                          <img src="" style="width: 150px; height:150px; border-radius: 40%;" id="imgFingerrti"/>
-                                          <button class="btn btn-primary" id="btnCapture" onclick="return Capture_rti()" type="button" style="margin-top:10px; margin-right: 25px;">Capture RTI</button>
-										  <input id="fingerprint" name="src" type="text" style="display: none;">
-										  <table>
-											<tr>
-											  <td style="display: none;"><input id="txtStatus"
-												type="text" name="txtStatus" style="width: 100%" /></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><input id="txtQuality"
-												type="text" name="txtQuality" style="width: 100%" /></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><input id="txtNFIQ" type="text"
-												name="txtNFIQ" style="width: 100%" /></td>
-											</tr>
-								
-											<tr>
-											  <td style="display: none;"><textarea id="txtIsoTemplate"
-												  name="txtIsoTemplate" style="width: 100%"></textarea></td>
-											</tr>
-								
-											<tr>
-											  <td style="display: none;"><input type="text"
-												id="runsession" name="runsession" style="width: 100%"></td>
-											</tr>
-								
-											<tr>
-											  <td style="display: none;"><textarea id="imgFinger1"
-												  name="imgFinger1" style="width: 100%"></textarea></td>
-											</tr>
+												<tr>
+													<td style="display:none">txtRawData:<textarea id="txtRawData" name="txtRawData"
+															style="width: 100%"></textarea></td>
+												</tr>
+					
+												<tr>
+													<td style="display:none">txtWsqData:<textarea id="txtWsqData" name="txtWsqData"
+															style="width: 100%"></textarea></td>
+												</tr>
+												<tr>
+													<td style="display:none">txtIsoImage:<textarea id="txtIsoImage" name="txtIsoImage"
+															style="width: 100%"></textarea></td>
+												</tr>
+					
+												<tr>
+													<td style="display:none">txtStatusrti<input id="txtStatusrti" type="text"
+															name="txtStatusrti" style="width: 100%" /></td>
+												</tr>
+												<tr>
+													<td style="display:none">txtQualityrti:<input id="txtQualityrti" type="text"
+															name="txtQualityrti" style="width: 100%" /></td>
+												</tr>
+												<tr>
+													<td style="display:none">txtNFIQrti:<input id="txtNFIQrti" type="text"
+															name="txtNFIQrti" style="width: 100%" /></td>
+												</tr>
+											</table>
+											<img src="" style="width: 80px; height:100px; border-radius: 40%; " id="imgFinger" />
+											<button class="btn btn-primary "id="btnCapture" onclick="return Capture()"
+												type="submit" style="margin-top:10px;  margin-right: 25px; ">Capture LTI</button></td>
+												{% comment %} <input type="submit"> {% endcomment %}
+									
 											
-											<tr>
-											  <td style="display: none;"><textarea id="imgFingerrti1"
-												  name="imgFingerrti1" style="width: 100%"></textarea></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><textarea id="txtRawData"
-												  name="txtRawData" style="width: 100%" ></textarea></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><textarea id="txtWsqData"
-												  name="txtWsqData" style="width: 100%" ></textarea></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><textarea id="txtIsoImage"
-												  name="txtIsoImage" style="width: 100%" ></textarea></td>
-											</tr>
-								
-											<tr>
-											  <td style="display: none;"><input id="txtStatusrti"
-												type="text" name="txtStatusrti" style="width: 100%" /></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><input id="txtQualityrti"
-												type="text" name="txtQualityrti" style="width: 100%" /></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><input id="txtNFIQrti"
-												type="text" name="txtNFIQrti" style="width: 100%" /></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><textarea id="txtIsoTemplaterti"
-												  name="txtIsoTemplaterti" style="width: 100%" ></textarea></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><textarea id="txtRawDatarti"
-												  name="txtRawDatarti" style="width: 100%" ></textarea></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><textarea id="txtWsqDatarti"
-												  name="txtWsqDatarti" style="width: 100%" ></textarea></td>
-											</tr>
-											<tr>
-											  <td style="display: none;"><textarea id="txtIsoImagerti"
-												  style="width: 100%" ></textarea></td>
-											</tr>
-										  </table>
-										  <input type="submit"></input>
-										  </form>
-                                        </th>
-                                      </table>
-                                    </div>
-									{% comment %} <div class="d-grid gap-2 col-4 mx-auto mt-5">
-                
-										<button type="submit" class="btn btn-primary" type="button" onclick="myFunction(),">Submit</button>
+										<td><label>R.T.I</label>
+											<img src="" style="width: 80px; height:100px; border-radius: 40%;" id="imgFingerrti" />
+											<button class="btn btn-primary" id="btnCapture" onclick="return Capture_rti()"
+												type="submit" style="margin-top:10px; margin-right: 25px;">Capture RTI</button>
+											<table>
+												<tr>
+													<td style="display:none">imgFingerrti1:<textarea id="imgFingerrti1"
+															name="imgFingerrti1" style="width: 100%"></textarea></td>
+												</tr>
+												<tr>
+													<td style="display:none">txtRawData:<textarea id="txtRawData" name="txtRawData"
+															style="width: 100%"></textarea></td>
+												</tr>
+					
+												<tr>
+													<td style="display:none">txtWsqData:<textarea id="txtWsqData" name="txtWsqData"
+															style="width: 100%"></textarea></td>
+												</tr>
+												<tr>
+													<td style="display:none">txtIsoImagerti:<textarea id="txtIsoImagerti" name="txtIsoImagerti"
+															style="width: 100%"></textarea>
+					
+													</td>
+												</tr>
+					
+												<tr>
+													<td style="display:none">txtStatusrti<input id="txtStatusrti" type="text"
+															name="txtStatusrti" style="width: 100%" /></td>
+												</tr>
+												<tr>
+													<td style="display:none">txtQualityrti:<input id="txtQualityrti" type="text"
+															name="txtQualityrti" style="width: 100%" /></td>
+												</tr>
+												<tr>
+													<td style="display:none">txtNFIQrti:<input id="txtNFIQrti" type="text"
+															name="txtNFIQrti" style="width: 100%" /></td>
+												</tr>
+												<tr>
+													<td style="display:none">txtIsoTemplaterti:<textarea id="txtIsoTemplaterti"
+															name="txtIsoTemplaterti" style="width: 100%"></textarea></td>
+												</tr>
+												<tr>
+													<td style="display:none">txtRawDatarti<textarea id="txtRawDatarti"
+															name="txtRawDatarti" style="width: 100%"></textarea></td>
+												</tr>
+												<tr>
+													<td style="display:none">txtWsqDatarti:<textarea id="txtWsqDatarti"
+															name="txtWsqDatarti" style="width: 100%"></textarea></td>
+												</tr>
+									
+											</table>
+											
+										</td>
+										 
+                                   </tr> 
+									
 										
-									  </div> {% endcomment %}
-                        </div>
-					</div>
-					{% comment %} <div class='col-1' style='margin-left: 1850px'>
-						hii
-					</div> {% endcomment %}
-						<div class="d-grid gap-2 col-4 mx-auto mt-5">
-                
-							<button type="submit" class="btn btn-primary" type="button" onclick="myFunction(),">Submit</button>
-							
-						  </div>
+		
+								</div>
+								<div style="margin-top: 40px">
+									<button type="submit" class="btn btn-primary"> Submit</button>
+								</div>
+					
+
+						    </form>
+						</div>	
 			</div>                  
                 </div>
+				
+					
             </div>
             <div>
               
@@ -943,4 +743,12 @@ function NitgenRequest(BiometricArray) {
 
 </html>
 {% endblock content %}
+
+
+
+
+
+
+
+
 
