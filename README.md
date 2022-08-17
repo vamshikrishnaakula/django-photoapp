@@ -35,12 +35,12 @@ Create a database djangodb in mysql, and configure into the settings.py file of 
 // settings.py
 DATABASES = {  
     'default': {  
-        'ENGINE': 'django.db.backends.mysql',  
-        'NAME': 'djangodb',  
-        'USER':'root',  
-        'PASSWORD':'mysql',  
+        'ENGINE': 'mssql',  
+        'NAME': 'django',  
+        'USER':'*****',  
+        'PASSWORD':'mssql',  
         'HOST':'localhost',  
-        'PORT':'3306'  
+        'PORT':'1:8000'  
     }  
 }  
 
