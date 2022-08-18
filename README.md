@@ -1,4 +1,4 @@
-# Django CRUD (Create Read Update Delete) Example
+# Django photo app for candidate regitration
 
 This project contains-
  - creating table using ORM
@@ -210,16 +210,12 @@ python manage.py createsuperuser
 
 # Debugging/basic errors-
 
-1. MySQL connection Error-
+1. Ms SQL connection Error-
 Solution-
-django.core.exceptions.ImproperlyConfigured: Error loading MySQLdb module.
+django.core.exceptions.ImproperlyConfigured: Error loading MsSQLdb module.
 Did you install mysqlclient?
 Ans-
-pip install pymysql
-Then, edit the __init__.py file in your project origin dir(the same as settings.py)
-add:
-import pymysql
-pymysql.install_as_MySQLdb()
+
 
 2. 'staticfiles' is not a registered tag library
 Solution-
