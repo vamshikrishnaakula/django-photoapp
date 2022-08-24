@@ -200,8 +200,6 @@ $ python3 manage.py runserver
 Access to the Browser
 Access the application by entering localhost:8000/, it will show all the available employee records.
 Initially, there is no record. So, it shows no record message. 
-Well, we have successfully created a CRUD application using Django.
-This complete project can be downloaded here.( https://github.com/diwamishra21/Django-crud-application)
 
 12. Accessing admin panel, for that you have to create a super user using command-
 python manage.py createsuperuser
@@ -213,11 +211,11 @@ python manage.py createsuperuser
 1. Ms SQL connection Error-
 Solution-
 django.core.exceptions.ImproperlyConfigured: Error loading MsSQLdb module.
-Did you install mysqlclient?
-Ans-
+install odbc errors?
 
 
-2. 'staticfiles' is not a registered tag library
+
+2. 'static-files' is not a registered tag library
 Solution-
 It's due to upgrading to Django3.0, use as mentioned above.
 use-
