@@ -44,7 +44,7 @@ DATABASES = {
     }  
 }  
 
-4. Create a Model- 
+4. Create a Model- example
 Put the following code into models.py file.
 // models.py
 from django.db import models  
@@ -55,17 +55,9 @@ class Employee(models.Model):
     econtact = models.CharField(max_length=15)  
     class Meta:  
         db_table = "employee"  
+ 
 
-5. Create a ModelForm
-// forms.py
-from django import forms  
-from employee.models import Employee  
-class EmployeeForm(forms.ModelForm):  
-    class Meta:  
-        model = Employee  
-        fields = "__all__"  
-
-6. Create View Functions
+6. Create View Functions-example
 // views.py
 from django.shortcuts import render, redirect  
 from employee.forms import EmployeeForm  
@@ -123,7 +115,7 @@ urlpatterns = [
 from django.urls import path
 from . import views
 
-urlpatterns = [
+urlpatterns  examples = [
     path('', views.show),
     path('emp', views.emp),
     path('show', views.show),
@@ -174,7 +166,7 @@ python manage.py collectstatic
 	
 11. Create Migrations
 Create migrations for the created model employee, use the following command.
-$ python3 manage.py makemigrations  
+====> python manage.py makemigrations  
 After migrations, execute one more command to reflect the migration into the database. But before it, mention name of app (employee) in INSTALLED_APPS of settings.py file.
 // settings.py
 INSTALLED_APPS = [  
@@ -188,14 +180,14 @@ INSTALLED_APPS = [
 ]  
 
 Run the command to migrate the migrations.
-$ python3 manage.py migrate  
+====> python manage.py migrate  
 
 Now, our application has successfully connected and created tables in database. It creates 10 default tables for handling project (session, authentication etc) and one table of our model that we created.
 See list of tables created after migrate command.
 
 Run Server
 To run server use the following command.
-$ python3 manage.py runserver  
+====> python manage.py runserver  
 
 Access to the Browser
 Access the application by entering localhost:8000/, it will show all the available employee records.
@@ -206,7 +198,7 @@ python manage.py createsuperuser
 (than follow instructions)
 
 
-# Debugging/basic errors-
+====> Debugging/basic errors-
 
 1. Ms SQL connection Error-
 Solution-
