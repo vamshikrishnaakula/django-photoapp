@@ -1,234 +1,693 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-</table>
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>    
+   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 </head>
 <style>
 body {
-    background-color: ;
+
+    {% comment %} background-color: aliceblue; {% endcomment %}
+	{% comment %} background-image: linear-gradient(to right, rgba(155,0,0,0), rgba(155,0,0,1)); {% endcomment %}
+background: linear-gradient(110deg, #fdcd3b 60%, #ffed4b 60%);
+	{% comment %} background: linear-gradient(90deg, rgb(252,167,213,1) 0%, rgb(152,255,165) 35%, rgb(100,245,255) 100%); {% endcomment %}
+
+	
 }
 </style>
+<script language="javascript" type="text/javascript">
+	var quality = 60; //(1 to 100) (recommanded minimum 55)
+	var timeout = 10; // seconds (minimum=10(recommanded), maximum=60, unlimited=0 )
+	function GetInfo() {
+		document.getElementById('tdSerial').innerHTML = "";
+		document.getElementById('tdMake').innerHTML = "";
+		document.getElementById('tdModel').innerHTML = "";
+		document.getElementById('tdWidth').innerHTML = "";
+		document.getElementById('tdHeight').innerHTML = "";
+		document.getElementById('tdLocalMac').innerHTML = "";
+		document.getElementById('tdLocalIP').innerHTML = "";
 
+		var res = GetNitgenInfo();
+		if (res.httpStaus) {
 
+			document.getElementById('txtStatus').value = "ErrorCode: "
+					+ res.data.ErrorCode + " ErrorDescription: "
+					+ res.data.ErrorDescription;
 
-    <body>
+			if (res.data.ErrorCode == "0") {
+				document.getElementById('tdSerial').innerHTML = res.data.DeviceInfo.SerialNo;
+				document.getElementById('tdMake').innerHTML = res.data.DeviceInfo.Make;
+				document.getElementById('tdModel').innerHTML = res.data.DeviceInfo.Model;
+				document.getElementById('tdWidth').innerHTML = res.data.DeviceInfo.Width;
+				document.getElementById('tdHeight').innerHTML = res.data.DeviceInfo.Height;
+				document.getElementById('tdLocalMac').innerHTML = res.data.DeviceInfo.LocalMac;
+				document.getElementById('tdLocalIP').innerHTML = res.data.DeviceInfo.LocalIP;
+			}
+		} else {
+			alert(res.err);
+		}
+		return false;
+	}
+
+ 	function Capture() {
+		try {
+			document.getElementById('txtStatus').value = "";
+			document.getElementById('imgFinger').src = "data:image/jpg;base64,";
+			console.log( document.getElementById('imgFinger').getAttribute('src'))
+			//console.log("=aaaa",document.getElementById('imgFinger').src)
+			document.getElementById('txtQuality').value = "";
+			document.getElementById('txtNFIQ').value = "";
+			document.getElementById('txtIsoTemplate').value = "";
+			console.log(document.getElementById('txtIsoTemplate').value)
+			document.getElementById('txtIsoImage').value = "";
+			document.getElementById('txtRawData').value = "";
+			document.getElementById('txtWsqData').value = "";
+
+			var res = CaptureFinger(quality, timeout);
+			if (res.httpStaus) {
+
+				document.getElementById('txtStatus').value = "ErrorCode: " + res.data.ErrorCode + " ErrorDescription: " + res.data.ErrorDescription;
+				if (res.data.ErrorCode == "0") 
+				{
+					// This is for fisrt fingerprint capture 
+					
+					
+				}
+			} else {
+				alert(res.err);
+			}
+			alert("Remove and place the Left Thumb Again!!!!!")
+			var resCheck = CaptureFinger(quality, timeout);
+			// To check if the finger can be verified
+			if (resCheck.httpStaus) {
+				
+				document.getElementById('txtStatus').value = "ErrorCode: " + res.data.ErrorCode + " ErrorDescription: " + res.data.ErrorDescription;
+				if (resCheck.data.ErrorCode == "0") {
+				var result = VerifyFinger(res.data.IsoTemplate, resCheck.data.IsoTemplate);
+				
+				if (result.httpStaus) {
+					if (result.data.Status) {
+						//alert("Finger Matched");
+						document.getElementById('imgFinger').src = "data:image/jpg;base64,"+res.data.BitmapData;
+						document.getElementById('imgFinger1').value ="data:image/jpg;base64,"+res.data.BitmapData;
+						document.getElementById('txtQuality').value = res.data.Quality;
+						document.getElementById('txtNFIQ').value = res.data.Nfiq;
+						document.getElementById('txtIsoTemplate').value = res.data.IsoTemplate;
+						document.getElementById('txtIsoImage').value = res.data.IsoImage;
+						document.getElementById('txtRawData').value = res.data.RawData;
+						document.getElementById('txtWsqData').value = res.data.WsqImage;
+					} else {
+						if (result.data.ErrorCode != "0") {
+							
+						} else {
+							alert("Please try Again");
+						}
+					}
+				} else {
+					alert(result.err);
+				}	
+					document.getElementById('txtIsoTemplate').value = res.data.IsoTemplate;
+					
+				}
+			} else {
+				alert(res.err);
+			}
+			
+		} catch (e) {
+			alert(e);
+		}
+		return false;
+	} 
+    function Capture_rti() {
+		try {
+			document.getElementById('txtStatusrti').value = "";
+			document.getElementById('imgFingerrti').src = "data:image/jpg;base64,";
+			document.getElementById('txtQualityrti').value = "";
+			document.getElementById('txtNFIQrti').value = "";
+			document.getElementById('txtIsoTemplaterti').value = "";
+			document.getElementById('txtIsoImagerti').value = "";
+			document.getElementById('txtRawDatarti').value = "";
+			document.getElementById('txtWsqDatarti').value = "";
+
+			var res = CaptureFinger(quality, timeout);
+			if (res.httpStaus) {
+
+				document.getElementById('txtStatus').value = "ErrorCode: " + res.data.ErrorCode + " ErrorDescription: " + res.data.ErrorDescription;
+				if (res.data.ErrorCode == "0") {
+					
+				}
+			} else {
+				alert(res.err);
+			}
+			alert("Remove and place the Right Thumb Again!!!!!")
+			var resCheck = CaptureFinger(quality, timeout);
+			// To check if the finger can be verified
+			if (resCheck.httpStaus) {
+
+				document.getElementById('txtStatus').value = "ErrorCode: " + res.data.ErrorCode + " ErrorDescription: " + res.data.ErrorDescription;
+				if (resCheck.data.ErrorCode == "0") {
+				var result = VerifyFinger(res.data.IsoTemplate, resCheck.data.IsoTemplate);
+				
+				if (result.httpStaus) {
+					if (result.data.Status) {
+						//alert("Finger Matched");
+						document.getElementById('imgFingerrti').src = "data:image/jpg;base64," + res.data.BitmapData;
+						document.getElementById('imgFingerrti1').value ="data:image/jpg;base64,"+res.data.BitmapData;
+						document.getElementById('txtQualityrti').value = res.data.Quality;
+						document.getElementById('txtNFIQrti').value = res.data.Nfiq;
+						document.getElementById('txtIsoTemplaterti').value = res.data.IsoTemplate;
+						document.getElementById('txtIsoImagerti').value = res.data.IsoImage;
+						document.getElementById('txtRawDatarti').value = res.data.RawData;
+						document.getElementById('txtWsqDatarti').value = res.data.WsqImage;
+					} else {
+						if (result.data.ErrorCode != "0") {
+							
+						} else {
+							alert("Please try Again");
+						}
+					}
+				} else {
+					alert(result.err);
+				}	
+					document.getElementById('txtIsoTemplate').value = res.data.IsoTemplate;
+					 	
+				}
+			} else {
+				alert(res.err);
+			}
+			
+		} catch (e) {
+			alert(e);
+		}
+		return false;
+	}  
+
+	function Verify() {
+		try {
+			var isotemplate = document.getElementById('txtIsoTemplate').value;
+			var res = VerifyFinger(isotemplate, isotemplate);
+
+			if (res.httpStaus) {
+				if (res.data.Status) {
+					alert("Finger matched");
+				} else {
+					if (res.data.ErrorCode != "0") {
+						alert(res.data.ErrorDescription);
+					} else {
+						alert("Finger not matched");
+					}
+				}
+			} else {
+				alert(res.err);
+			}
+		} catch (e) {
+			alert(e);
+		}
+		return false;
+
+	}
+
+	function Match() {
+		try {
+			var isotemplate = document.getElementById('txtIsoTemplate').value;
+			var res = MatchFinger(quality, timeout, isotemplate);
+
+			if (res.httpStaus) {
+				if (res.data.Status) {
+					alert("Finger matched");
+				} else {
+					if (res.data.ErrorCode != "0") {
+						alert(res.data.ErrorDescription);
+					} else {
+						alert("Finger not matched");
+					}
+				}
+			} else {
+				alert(res.err);
+			}
+		} catch (e) {
+			alert(e);
+		}
+		return false;
+
+	}
+
+	function GetPid() {
+		try {
+			var isoTemplateFMR = document.getElementById('txtIsoTemplate').value;
+			var isoImageFIR = document.getElementById('txtIsoImage').value;
+
+			var Biometrics = Array();
+			Biometrics["0"] = new Biometric("FMR", isoTemplateFMR, "UNKNOWN");
+			Biometrics["1"] = new Biometric("FIR", isoImageFIR, "UNKNOWN");
+
+			var res = GetPidData(Biometrics);
+			if (res.httpStaus) {
+				if (res.data.ErrorCode != "0") {
+					alert(res.data.ErrorDescription);
+				} else {
+					document.getElementById('txtPid').value = res.data.PidData.Pid
+					document.getElementById('txtSessionKey').value = res.data.PidData.Sessionkey
+					document.getElementById('txtHmac').value = res.data.PidData.Hmac
+					document.getElementById('txtCi').value = res.data.PidData.Ci
+					document.getElementById('txtPidTs').value = res.data.PidData.PidTs
+				}
+			} else {
+				alert(res.err);
+			}
+
+		} catch (e) {
+			alert(e);
+		}
+		return false;
+	}
+	var uri = "http://localhost:8367/bioenable/";
+function GetNitgenInfo() {
+  return GetNitgenClient("info");
+}
+function CaptureFinger(quality, timeout) {
+  var NitgenRequest = { Quality: quality, TimeOut: timeout };
+  var jsondata = JSON.stringify(NitgenRequest);
+  return PostNitgenClient("capture", jsondata);
+}
+function VerifyFinger(ProbFMR, GalleryFMR) {
+  var NitgenRequest = { ProbTemplate: ProbFMR, GalleryTemplate: GalleryFMR };
+  var jsondata = JSON.stringify(NitgenRequest);
+  return PostNitgenClient("verify", jsondata);
+}
+function MatchFinger(quality, timeout, GalleryFMR) {
+  var NitgenRequest = {
+    Quality: quality,
+    TimeOut: timeout,
+    GalleryTemplate: GalleryFMR,
+  };
+  var jsondata = JSON.stringify(NitgenRequest);
+  return PostNitgenClient("match", jsondata);
+}
+function GetPidData(BiometricArray) {
+  var req = new NitgenRequest(BiometricArray);
+  var jsondata = JSON.stringify(req);
+  return PostNitgenClient("getpiddata", jsondata);
+}
+function PostNitgenClient(method, jsonData) {
+  var res;
+  var httpStaus = false;
+  $.ajax({
+    type: "POST",
+    async: false,
+    url: uri + method,
+    contentType: "application/json; charset=utf-8",
+    data: jsonData,
+    dataType: "json",
+    processData: false,
+    success: function (data) {
+      httpStaus = true;
+      res = { httpStaus: httpStaus, data: data };
+    },
+    error: function (jqXHR, ajaxOptions, thrownError) {
+      res = { httpStaus: httpStaus, err: getHttpError(jqXHR) };
+    },
+  });
+  return res;
+}
+function GetNitgenClient(method) {
+  var res;
+  var httpStaus = false;
+  $.ajax({
+    type: "GET",
+    async: false,
+    url: uri + method,
+    contentType: "application/json; charset=utf-8",
+    processData: false,
+    success: function (data) {
+      httpStaus = true;
+      res = { httpStaus: httpStaus, data: data };
+    },
+    error: function (jqXHR, ajaxOptions, thrownError) {
+      res = { httpStaus: httpStaus, err: getHttpError(jqXHR) };
+    },
+  });
+  return res;
+}
+
+function getHttpError(jqXHR) {
+  var err = "Unhandled Exception";
+  if (jqXHR.status === 0) {
+    err = "Service Unavailable";
+  } else if (jqXHR.status == 404) {
+    err = "Requested page not found";
+  } else if (jqXHR.status == 500) {
+    err = "Internal Server Error";
+  } else if (thrownError === "parsererror") {
+    err = "Requested JSON parse failed";
+  } else if (thrownError === "timeout") {
+    err = "Time out error";
+  } else if (thrownError === "abort") {
+    err = "Ajax request aborted";
+  } else {
+    err = "Unhandled Error";
+  }
+  return err;
+}
+function Biometric(BioType, BiometricData, Pos) {
+  this.BioType = BioType;
+  this.BiometricData = BiometricData;
+  this.Pos = Pos;
+}
+function NitgenRequest(BiometricArray) {
+  this.Biometrics = BiometricArray;
+}
+
+</script>
+
+   <body>
         <div class="container-fluid">
-            <div class="row" style="margin-top:10px;">
-                <div class="col-3" style="margin-left: 10px;display:revert;font-size: 50px" style="margin-left: 10px;margin-top:10px">
-                    <div class="mb-3" style="margin-left: 10px;display:revert;font-size: 50px">
-                        
-                        <h3><p style="border: 1px solid black">ROLLNO:{{ result.Rollno }}</p></h3>
-                    </div>
-                    <div class="mb-3" style="margin-left: 10px;display:revert;font-size: 50px">
-                        <h3><p style="border: 1px solid black">NAME:{{ result.Name }}</p></h3>
-                    </div>
-                    <div class="mb-3" style="margin-left: 10px;display:revert;font-size: 50px">
-                        <h3><P style="border: 1px solid black">FatherName : {{ result.FatherName }}</P></h3>
-                    </div>
-                    <div class="mb-3" style="margin-left: 10px;display:revert;font-size: 50px">
-                      <h3><P style="border: 1px solid black">Gender :  {{ result.Gender }}</P></h3>
-                    
-                    </div>
-                    <div class="mb-3" style="margin-left: 10px;display:revert;font-size: 50px">
-                      <h3><P style="border: 1px solid black">DOB :  {{ result.DOB }}</P></h3>
-                    
-                    </div>
-                    
-                    <div class="mb-4">
-                      
-                        <form id="contactForm1" action="UPDATE" method="post">
-                            {% csrf_token %}
-                        
-                            <label for="exampleInputEmail1" class="form-label">BIb</label>
-                            <input type="Name" class="form-control" placeholder = "Enter Bib number" name="BiB">
-                        </div>
+			<form id="Form1" action="update_data" method="post"  autocomplete="off"  class="row " style="margin-top:10px;">
+				{% csrf_token %}
+				<div class="col-md-1"></div>
+				<div class="col-md-3" style="margin-left: 10px;display:revert;font-size: 50px" style="margin-left: 10px;margin-top:10px">
+					<div class="mb-3" style="margin-left: 10px;display:revert;font-size: 50px">
+						<h3><p style="border: 1px solid black">ROLLNO:{{ result.Rollno }}</p></h3>
+					</div>
 
-                        <div class="mb-4">
-                            <label for="exampleInputEmail1" class="form-label">Chipcode1</label>
-                            <input type="Name" class="form-control" placeholder = "Enter chip code 1" name="Chipcode1">
-                        </div>
-                        <div class="mb-4">
-                            <label for="exampleInputEmail1" class="form-label">Chipcode2</label>
-                            <input type="Name" class="form-control" placeholder ="Enter chip code 2" name="Chipcode2">
-                        </div>
-                            
-                            <button type="submit" class="btn btn-primary">submit</button>
-                        </form>
+					<div class="mb-3" style="margin-left: 10px;display:revert;font-size: 50px">
+						<h3><p style="border: 1px solid black">NAME:{{ result.Name }}</p></h3>
+					</div>
 
-                        <h3>{{message}}</h3>
-                        
-                </div>
-                <script>
-                    var frm = $('#contactForm1');
-                    var formData = new FormData(document.getElementsByName('')[0]);
-                    frm.submit(function (e) {
-                        console.log("called")
-                        var form = $(this);
-                        e.preventDefault();
-                            $.ajax(
-                                {
-                                    type:"POST",
-                                    url: frm.attr('action'),
-                                    {% comment %} data:{
-                                              BiB : $('#BiB').val(),
-                                            Chipcode1 : $('#Chipcode1').val(),
-                                            Chipcode2 : $('#Chipcode2').val(),
-                                            csrfmiddlewaretoken: '{{ csrf_token }}',
-                                            dataType: "json",
-                                    }, {% endcomment %}
-                                    data: form.serialize(),
-                                    success: function( data )
-                                    {
-                                       alert("inserted");
-                                    },
-                                    error:function()
-                                    {
-                                        alert("error is there");
-                                    }
-                                });
-                        
-                
-                    });  
-                </script>
-                {% comment %} <script>
-                    $('#form').on('submit', function(e){
-                        
-                    e.preventDefault();
-                    
-                      $.ajax({
-                           type : "POST", 
-                           url: "{% url 'UPDATE' %}",
-                           data: {
-                            BiB : $('#BiB').val(),
-                            Chipcode1 : $('#Chipcode1').val(),
-                            Chipcode2 : $('#Chipcode2').val(),
-                            csrfmiddlewaretoken: '{{ csrf_token }}',
-                            dataType: "json",
-                    
-                           },
-                           
-                           success: function( data )
-                    {
-                       alert(inserted);
-                    },
-                    error:function()
-                    {
-                        alert("error is there");
-                    }
-                    
-                       });
-                    
-                    
-                            });    
-                 </script> {% endcomment %}
-                <div class="col-2">
+					<div class="mb-3" style="margin-left: 10px;display:revert;font-size: 50px">
+						<h3><P style="border: 1px solid black">FatherName : {{ result.FatherName }}</P></h3>
+					</div>
 
-                </div>
+					<div class="mb-3" style="margin-left: 10px;display:revert;font-size: 50px">
+						<h3><P style="border: 1px solid black">Gender :  {{ result.Gender }}</P></h3>
+					</div>
 
-                <div class="col-6" style="margin-left: 10px;margin-top:10px">
-                    <div class="card" style="width: 40rem;">
+					<div class="mb-3;form-control" style="margin-left: 10px;display:revert;font-size: 50px">
+						<h3><P style="border: 1px solid black">DOB :  {{ result.DOB }}</P></h3>
+					</div>
+					
+					<div class="mb-4">
+						<div class="mb-4">
+							<label for="exampleInputEmail1" class="form-label">BIb</label>
+							<input style="font-size:20px"type="Name" class="form-control" placeholder = "Enter Bib number" name="BiB" required>
+						</div>
 
-                        <div class="card-body">
+						<div class="mb-4">
+							<label for="exampleInputEmail1" class="form-label">Chipcode1</label>
+							<input style="font-size:20px"type="Name" class="form-control" placeholder = "Enter chip code 1" name="Chipcode1" required>
+						</div>
 
-                            <body onload="init();">
+						<div class="mb-4">
+							<label for="exampleInputEmail1" class="form-label">Chipcode2</label>
+							<input style="font-size:20px" type="Name" class="form-control" placeholder ="Enter chip code 2" name="Chipcode2" required>
+						</div>
 
-                                <video onclick="snapshot(this);" width="100%" height="100%" id="video" controls
-                                    autoplay></video>
-                                <p>
+						{% comment %} <button type="submit" class="btn btn-primary" >submit</button>  {% endcomment %}
+						<h3>{{message}}</h3>
+					</div>
+				</div>
 
-                                    captures :
+				<div class="col-1">
+				</div>
 
-                                <p>
-                                    <canvas id="myCanvas" width="100%" height="100%"></canvas>
-                            </body>
+				<div class="col-6" style="margin-left: 20px;">
+					<div class="card-body">
+						 <table>
+						 <tr>
+						 <td><video autoplay="true" id="videoElement"  height="350" name='vid'>
+						 </video>
+						 <td><canvas id="CANVAS" width="350" height="350" style="border:1px solid #000000;margin-top:30px;" name='image'>
+						 </canvas><br><br></td>
+						 </tr>
+						 </table>
+						 {% comment %} <form id="image" action="photodata" method="post">
+						 {% csrf_token %} {% endcomment %}
+						 <a id="download" download="face.jpg"> 
+						 <button onclick="myFunction(); download();" class="btn btn-primary dropdown-toggle"
+						 type="button">capture</button></a>
+						 <input id="webimg" name="src" type="text" style="display: none;" >
+						 
+						 {% comment %} ****camara script**** {% endcomment %}
+						 <script>
+						   function download() {
+							  //var dow = document.getElementById("download");
+											 var imagedata = document.getElementById("CANVAS").toDataURL("image/png")
+												 .replace("image/jpg", "image/octet-stream");
+											 //dow.setAttribute("href", imagedata);
+											  
+											 document.getElementById("webimg").value = imagedata;
+											 console.log(document.getElementById("webimg").value )
+										 }					
+				 
+										 var video = document.querySelector("#videoElement");
+				 
+										 if (navigator.mediaDevices.getUserMedia) {
+											 navigator.mediaDevices.getUserMedia({ video: true })
+												 .then(function (stream) {
+													 video.srcObject = stream;
+												 })
+												 .catch(function (err0r) {
+													 console.log("Something went wrong!");
+												 });
+											 var i = 0;
+											 function myFunction() {
+												 var x = document.getElementById("CANVAS");
+												 var ctx = x.getContext("2d");
+												 ctx.fillStyle = "#FF0000";
+				 
+												 ctx.drawImage(video, 0, 0, 400, 350);
+				 
+												 //ctx.fillRect(20, 20, 150, 100);
+				 
+												 //if (i < 10) {
+												 //	document.body.appendChild(x);
+												 //	i = i + 1;
+												 //};
+				 
+				 
+											 }
+				 
+										 }
+						 </script>
+ 
+						 <div class="mt-3 ">
+							 <div class='col-1'style="margin-left: 10px;width:605px"> 
+								 <table style="width:100%">
+									 <tr>
+									   {% comment %} <form id="biometric" action="update_fingerprints" method="POST">
+										   {%csrf_token%} {% endcomment %}
+												<table>
+												   <tr>
+													   <td style="display:none">txtStatus:<input id="txtStatus" type="text"
+															   name="txtStatus" style="width: 100%" /></td>
+												   </tr>
+												   <tr>
+													   <td style="display:none">txtQuality:<input id="txtQuality" type="text"
+															   name="txtQuality" style="width: 100%" /></td>
+												   </tr>
+												   <tr>
+													   <td style="display:none">txtNFIQ:<input id="txtNFIQ" type="text" name="txtNFIQ"
+															   style="width: 100%" /></td>
+												   </tr>
+					   
+												   <tr>
+													   <td style="display:none">txtIsoTemplate:<textarea id="txtIsoTemplate"
+															   name="txtIsoTemplate" style="width: 100%"></textarea></td>
+												   </tr>
+					   
+												   <tr>
+													   <td style="display:none">runsession:<input type="text" id="runsession"
+															   name="runsession" style="width: 100%"></td>
+												   </tr>
+					   
+												   <tr>
+													   <td style="display:none">imgFinger1:<textarea id="imgFinger1" name="imgFinger1"
+															   style="width: 100%" required></textarea></td>
+												   </tr>
+		  
+												   <tr>
+													   <td style="display:none">txtRawData:<textarea id="txtRawData" name="txtRawData"
+															   style="width: 100%"></textarea></td>
+												   </tr>
+					   
+												   <tr>
+													   <td style="display:none">txtWsqData:<textarea id="txtWsqData" name="txtWsqData"
+															   style="width: 100%"></textarea></td>
+												   </tr>
+												   <tr>
+													   <td style="display:none">txtIsoImage:<textarea id="txtIsoImage" name="txtIsoImage"
+															   style="width: 100%" required></textarea></td>
+												   </tr>
+					   
+												   <tr>
+													   <td style="display:none">txtStatusrti<input id="txtStatusrti" type="text"
+															   name="txtStatusrti" style="width: 100%" /></td>
+												   </tr>
+												   <tr>
+													   <td style="display:none">txtQualityrti:<input id="txtQualityrti" type="text"
+															   name="txtQualityrti" style="width: 100%" /></td>
+												   </tr>
+												   <tr>
+													   <td style="display:none">txtNFIQrti:<input id="txtNFIQrti" type="text"
+															   name="txtNFIQrti" style="width: 100%" /></td>
+												   </tr>
+											   </table>
+											   <td><label style="font-size:20px">L.T.I</label>
+											   <img src="" style="width: 120px; height:150px;border:1px solid #000000; border-radius: 40%; " id="imgFinger" />
+											   <button class="btn btn-primary "id="btnCapture" onclick="return Capture()"
+												 type="submit" style="margin-top:10px;  margin-right: 25px; ">Capture LTI</button></td>
+												   {% comment %} <input type="submit"> {% endcomment %}
+										 <td><label style="font-size:20px">R.T.I</label>
+												 <img src="" style="width: 120px; height:150px; border-radius: 40%;border:1px solid #000000" id="imgFingerrti" />
+												 <button class="btn btn-primary" id="btnCapture" onclick="return Capture_rti()"
+														 type="submit" style="margin-top:10px; margin-right: 25px;">Capture RTI</button></td>
+												 <table>
+														 <tr>
+															 <td style="display:none">imgFingerrti1:<textarea id="imgFingerrti1"
+																	 name="imgFingerrti1" style="width: 100%" required></textarea></td>
+														 </tr>
+														 <tr>
+															 <td style="display:none">txtRawData:<textarea id="txtRawData" name="txtRawData"
+																	 style="width: 100%"></textarea></td>
+														 </tr>
+							 
+														 <tr>
+															 <td style="display:none">txtWsqData:<textarea id="txtWsqData" name="txtWsqData"
+																	 style="width: 100%"></textarea></td>
+														 </tr>
+														 <tr>
+															 <td style="display:none">txtIsoImagerti:<textarea id="txtIsoImagerti" name="txtIsoImagerti"
+																	 style="width: 100%" required></textarea>
+							 
+															 </td>
+														 </tr>
+							 
+														 <tr>
+															 <td style="display:none">txtStatusrti<input id="txtStatusrti" type="text"
+																	 name="txtStatusrti" style="width: 100%" /></td>
+														 </tr>
+														 <tr>
+															 <td style="display:none">txtQualityrti:<input id="txtQualityrti" type="text"
+																	 name="txtQualityrti" style="width: 100%" /></td>
+														 </tr>
+														 <tr>
+															 <td style="display:none">txtNFIQrti:<input id="txtNFIQrti" type="text"
+																	 name="txtNFIQrti" style="width: 100%" /></td>
+														 </tr>
+														 <tr>
+															 <td style="display:none">txtIsoTemplaterti:<textarea id="txtIsoTemplaterti"
+																	 name="txtIsoTemplaterti" style="width: 100%"></textarea></td>
+														 </tr>
+														 <tr>
+															 <td style="display:none">txtRawDatarti<textarea id="txtRawDatarti"
+																	 name="txtRawDatarti" style="width: 100%"></textarea></td>
+														 </tr>
+														 <tr>
+															 <td style="display:none">txtWsqDatarti:<textarea id="txtWsqDatarti"
+																	 name="txtWsqDatarti" style="width: 100%"></textarea></td>
+														 </tr>
+											 
+												 </table>
+												 <div style="margin-top: 40px;margin-left : -50px">
+											 {% comment %} <button type="submit" class="btn btn-primary"> Click Me!</button> {% endcomment %}
+										 </div> 
+										</tr>
+									</table>
+								</div>	
+						    </div>
+						</div>	  
+				 
+					</div>	
+				</div>
 
-                            <div class="text-center">
-                                <a href="#!" class="btn btn-success" onClick="start()">
-                                    Start Cam
-                                </a>
-                                <a href="#!" class="btn btn-danger" onClick="stop()">
-                                    Stop Cam
-                                </a>
-                                <a href="#!" class="btn btn-danger" onClick="captures()">
-                                    captures
-                                </a>
-                            </div>
-                            <script>
-                                var stop = function () {
-                                    var stream = video.srcObject;
-                                    var tracks = stream.getTracks();
-                                    for (var i = 0; i < tracks.length; i++) {
-                                        var track = tracks[i];
-                                        track.stop();
-                                    }
-                                    video.srcObject = null;
-                                }
-                                var start = function () {
-                                    var video = document.getElementById('video'),
-                                        vendorUrl = window.URL || window.webkitURL;
-                                    if (navigator.mediaDevices.getUserMedia) {
-                                        navigator.mediaDevices.getUserMedia({ video: true })
-                                            .then(function (stream) {
-                                                video.srcObject = stream;
-                                            }).catch(function (error) {
-                                                console.log("Something went wrong!");
-                                            });
-                                    }
-                                }
-                                function init() {
-                                    // Get the canvas and obtain a context for
-                                    // drawing in it
-                                    canvas = document.getElementById("myCanvas");
-                                    ctx = canvas.getContext('2d');
+				<div class="col-1"></div>
+				<input id='myInput' style="display:none;width: 100%" value={{ result_photo.token }}
+				name="token1"/> 
+			<button id="myBtn" class="btn btn-primary" type="submit">get token</button></a> 
+ 
+            </form>  
+            
+			<script>
+				var frm = $('#Form1');
+				var formData = new FormData(document.getElementsByName('')[0]);
+				frm.submit(function (e) {
+					var form = $(this);
+					e.preventDefault();
+						$.ajax(
+							{
+								type:"POST",
+								url: frm.attr('action'),
+								data:{
+								BiB : $('#BiB').val(),
+								Chipcode1 : $('#Chipcode1').val(),
+								Chipcode2 : $('#Chipcode2').val(),
+								candidate_image:$('#src').val(),
+								ltiimage : $('#imgFinger1').val(),
+								rtiimage : $('#imgFingerrti1').val(),
+								lti_iso : $('#txtIsoImage').val(),
+								rti_iso : $('#txtIsoImagerti').val(),
+								feild : $('#token').val(),
+								csrfmiddlewaretoken: '{{ csrf_token }}',
+								dataType: "json",
+								
+								},
+								data: form.serialize(),
+								success: function( data )
+								{
+								   alert('inserted');
+								},
+								error:function()
+								{
+									alert("error is there");
+								}
+							});
+					
+			
+				});  
+			</script> 
+		 
+				{% comment %} <input id='myInput' style="display:none;width: 100%" value={{ result_photo.token }}
+					name="token1"/> 
+				<button id="myBtn" class="btn btn-primary" type="submit">get token</button></a>  {% endcomment %}
 
-                                }
+			
 
-                                function captures() {
-                                    // Draws current image from the video element into the canvas
-
-                                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                                }
-                            </script>
-
-                        </div>
-
-                    </div>
-                    <div class="mt-3 ">
-                        <div class="card" style="margin-left: 50px;width:605px">
-                            <div class="card-body">
-                                <h5 class="card-title">RTI</h5>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-3 ">
-                        <div class="card" style="margin-left: 50px;width: 605px">
-                            <div class="card-body">
-                                <h5 class="card-title">LTI</h5>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div>
-              <div class="d-grid gap-2 col-4 mx-auto mt-5">
-                
-                <button type="submit" class="btn btn-primary" type="button" onclick="myFunction()">Submit</button>
-                
-              </div>
-
-
-            </div>
+			<div class="mb-3" style="margin-left: 10px;display:revert;font-size: 50px">
+				{% comment %} <input id='myInput' style="display:none;width: 100%" value={{ result_photo.token }} name="token1"/> {% endcomment %}
+				{% comment %} <h3><p >Token:{{ result_photo.token}}</p></h3> {% endcomment %}
+			</div> 
+			  <script>
+				$(document).ready(function(){
+					// Get value on button click and show alert
+					$("#myBtn").click(function(){
+						var str = $("#myInput").val();
+						alert(str);
+					});
+				});
+				</script> 
+	
         </div>
-        </div>
+		<div class='col-1' style='margin-left: 1850px'>
+			<form id='candidate_image' action='showImage'>
+				<button  class="btn btn-outline-light" type="submit">Showimage</button></a> 
+			
+			</form>  
+		</div>
 
+		
+	 
     </body>
 
 </html>
 {% endblock content %}
+
+
+
+
+
+
+
+
 

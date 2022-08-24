@@ -1,13 +1,14 @@
-<!DOCTYPE html>
-<html>
-  <head>
+{% extends 'base.html' %}
+
+{% block content %}
     <title>Display Image</title>
   </head>
   <body>
     <div>
-      <p>From Database</p>
-      {% comment %} <input id="webimg" name="src" type="img"> {% endcomment %}
+      <p style = "font-family:georgia,garamond,serif;font-size:36px;font-style:italic;">From Database</p>
       <img src={{result_photo.candidate_photo}} alt="Red dot" />
     </div>
   </body>
-</html>
+
+  </html>
+  {% endblock content %}
