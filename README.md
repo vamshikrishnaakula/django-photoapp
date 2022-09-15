@@ -1,7 +1,10 @@
 # Django photo app for candidate regitration
 
 requirements:-
+
+
 Django ==3.2
+
 gunicorn==20.1.0
 absl-py==1.0.0
 asgiref==3.4.1
