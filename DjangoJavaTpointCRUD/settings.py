@@ -11,9 +11,22 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from re import TEMPLATE
+# from django.contrib.messages import constants as messages
+
+
+# MESSAGE_TAGS = {
+#         messages.DEBUG: 'alert-secondary',
+#         messages.INFO: 'alert-info',
+#         messages.SUCCESS: 'alert-success',
+#         messages.WARNING: 'alert-warning',
+#         messages.ERROR: 'alert-danger',
+#  }
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+STATIC_DIR= os.path.join(BASE_DIR, 'static')
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +38,7 @@ SECRET_KEY = 'c9u^j89@-q!x1@3%*ys)!gd9jhgu+)iu#aeng-8@#yv8(q+5ft'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -55,7 +68,7 @@ ROOT_URLCONF = 'DjangoJavaTpointCRUD.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [TEMPLATE_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,6 +91,8 @@ DATABASES = {
     'default': {
         # String. It must be "mssql".
         'ENGINE': 'mssql',
+        # "ENGINE": "mssql",
+        
 
         # String. Database name. Required.
         'NAME': 'Django',
@@ -142,7 +157,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
-STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+
+STATICFILES_DIRS = [STATIC_DIR,]
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",
+#     '/var/www/static/',
+# ]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
