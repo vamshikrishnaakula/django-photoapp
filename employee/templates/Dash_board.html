@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/form-style.css' %}" type="text/css" />
+    
+</head>
+<body>
+<form class='card1' name="contactForm"   style="margin: 325px;width: 600px;height:250px ;background: #FFFFFF">
+
+    <div class="row" style="margin:center;margin-top:10px"><br><br>
+        <div class="mb-1">
+            <p style = "font-family:georgia,garamond,serif;font-size:36px;font-style:italic;">Total candidate:{{Total_count}} <br></p>
+       
+        </div>
+        <div class="mb-1">
+            <p style = "font-family:georgia,garamond,serif;font-size:36px;font-style:italic;">Registered candidate:{{reg_count}} <br></p>
+       
+        </div>
+        <div class="mb-1">
+            <p style = "font-family:georgia,garamond,serif;font-size:36px;font-style:italic;">Un registered candidate:{{Remaining}} <br></p>
+       
+        </div> 
+
+    </div>
+
+    
+
+
+
+</form>
+</body>
+</html>
+
+
+ 
+{% endblock content %}
+

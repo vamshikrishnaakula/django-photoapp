@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% load static %}
-<script src="{% static 'js/sweetalert.js' %}"></script> 
+
+</html>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
 
 <body>
  
@@ -16,16 +19,16 @@
        <button class="btn btn-primary" type="submit">GO</button>
         
     </form>
-  
-    
+
   </div><br>
+       
   {% for message in messages %}
     {% if message.tags == 'error' %}
+         <h4 style="color:red;"> {{ message }} </h4>
     <!-- sweetalert js -->
-    <script src="{% static 'js/sweetalert.js' %}"></script> 
-
-   <script>
-    {% comment %} <script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script>
       var m = "{{ message }}";
       Swal.fire({
         icon: 'error',
@@ -39,9 +42,7 @@
           popup: 'my-icon'                     // disable popup animation css
         },
       });
-    </script> {% endcomment %}
-       swal("{{ message }}", "Enter un-registere", "error");
-    </script> 
+    </script>
     {% endif %}
   {% endfor %}
 
