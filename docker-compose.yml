@@ -1,29 +1,28 @@
-version: "3.6"
+version: '3'
 services:
-  db:
-    container_name: 'db'
-    image: mssql:2012
-    ports:
-       - "8000:8000"
-    environment:
-       MSSQL_DATABASE: 'Django'
-       MSSQL_PASSWORD: '1998@Vamshi'
-    #    MSSQL_ROOT_PASSWORD: 'root'
-    volumes:
-      - 'db:/var/lib/mssql'
-    # command: ['mssqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
-  web:
-    build: .
-    command: python3 app/manage.py runserver 0.0.0.0:8001 
-    volumes:
-      - '.:/base_directory'
-    ports:
-      - "8001:8001"
-    depends_on:
-      - db
-    
-
-volumes:
-  redisdata:
-  db:
-  .:
+    python:
+      # image: python:3.6
+      build:
+        context: .
+        dockerfile: docker/python/Dockerfile
+      volumes:
+            - ./Django-crud-application-master:/Django-crud-application-master
+      ports:
+          - "8000:8000"
+      # command: sleep infinity 
+      # command: "cd / Django-crud-application-master && pip install -r requirements.txt && python manage.py migrate && python manage.py runserver "
+    sql-server:
+      # image :  mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+      image :  mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+      container_name: dbw
+      environment:
+           - ACCEPT_EULA=Y
+           - DB=registrationdb
+           - SA_PASSWORD=1998@Vamshi
+      ports:
+      - "1433:1433"
+      volumes:
+        # - mssql:/var/lib/mssql/data
+        # - sqluser:/var/opt/mssql/sqlserver
+        #  - './drive:/var/opt/mssql'
+           - '//C/Program Files/Microsoft SQL Server/MSSQL15.MSSQLSERVER/MSSQL/DATA'
