@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'sslserver',
     'employee',
 ]
 
@@ -86,25 +87,66 @@ WSGI_APPLICATION = 'DjangoJavaTpointCRUD.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+# DATABASES = {
+#     'default': {
+#         # String. It must be "mssql".
+#         # 'ENGINE': 'sql_server.pyodbc',
+#         # 'ENGINE': 'mssql',
+#         'ENGINE': 'django.db.backends.mysql',
+#         # String. Database name. Required.
+#         'NAME': 'regestrationdb',
+
+#         # String. Database user name in "user" format. If not given then MS Integrated Security will be used.
+#         'USER': 'root',
+
+#         # String. Database user password.
+#         'PASSWORD': 'root',
+
+#          # String. SQL Server instance in "server\instance" format.
+#         'HOST': '127.0.0.1',
+
+#         # String. Server instance port. An empty string means the default port.
+#         # 'PORT': '1433',
+#         'PORT': '3306',
+
+#         # Dictionary. Additional database settings.
+#         'OPTIONS': {
+#             # String. ODBC Driver to use ("ODBC Driver 17 for SQL Server", 
+#             # "SQL Server Native Client 11.0", "FreeTDS" etc). 
+#             # 'driver': 'SQL Server Native Client 11.0',
+#             # Default is "ODBC Driver 17 for SQL Server".
+#             #  'DRIVER': 'ODBC Driver 17 for SQL Server',
+#              'init_command': "SET sql_mode='STRICT_TRANS_TABLES'" 
+#                 # 'AUTOCOMMIT': True,
+#                 # 'host_is_server': True,
+#                 # 'unicode_results': True,
+#                 # 'driver': 'FreeTDS',
+#                 # 'extra_params' : 'TDS_VERSION=8.0',
+#         },
+#     },
+# }
+
+
 
 DATABASES = {
     'default': {
         # String. It must be "mssql".
-        'ENGINE': 'mssql',
-        # "ENGINE": "mssql",
+        # 'ENGINE': 'mssql',
+         'ENGINE': 'sql_server.pyodbc',
         
 
         # String. Database name. Required.
-        'NAME': 'Django',
+        'NAME': 'registrationdb',
 
         # String. Database user name in "user" format. If not given then MS Integrated Security will be used.
-        'USER': 'sa',
+        'USER': 'SA',
 
         # String. Database user password.
         'PASSWORD': '1998@Vamshi',
 
          # String. SQL Server instance in "server\instance" format.
-        'HOST': 'DESKTOP-1KD7GKU',
+        # 'HOST': 'DESKTOP-1KD7GKU\SQLEXPRESS',
+          'HOST': 'DESKTOP-3U8PD1I',
 
         # String. Server instance port. An empty string means the default port.
         'PORT': '1433',
@@ -114,7 +156,10 @@ DATABASES = {
             # String. ODBC Driver to use ("ODBC Driver 17 for SQL Server", 
             # "SQL Server Native Client 11.0", "FreeTDS" etc). 
             # Default is "ODBC Driver 17 for SQL Server".
-            'DRIVER': 'ODBC Driver 17 for SQL Server',
+             'DRIVER': 'ODBC Driver 17 for SQL Server',
+            #  'isolation_level':'READ UNCOMMITTED'
+            #  'driver' : 'SQL Server Native Client 11.0',
+            #  'host_is_server': True
         },
     },
 }
