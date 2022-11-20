@@ -19,8 +19,18 @@ from django.contrib.messages.views import SuccessMessageMixin
 import base64
 import cv2
 import numpy as np
-import cv2,os,re
+# import pyodbc
+# import pymssql
+# import mysql.connector
 from django.template import RequestContext
+
+# def db_fetching(pmtdate):
+#    db = pyodbc.connect('Driver={ODBC Driver 17 for SQL Server};',server='localhost',user='sa',password='1998@Vamshi',database='registrationdb')
+#    cursor = db.cursor()
+#    data = cursor.fetchall()
+#    db.close()
+#    return data
+
 
 
 def Homepage(request):
@@ -33,9 +43,27 @@ def Home(request):
 
     return render(request,'Homepage-2.html')
 def help(request):
+    # db = pymssql.connect(server='localhost',user='sa',password='1998@Vamshi',database='registrationdb')
+    # print("db==",db)
+    # cursor = db.cursor()
     reg_count=Applicants.objects.exclude(chipcode1__isnull=True).count()
+    # reg_count = cursor.execute(" SELECT count(chipcode1) FROM Applicants where chipcode1 IS NULL;")
+    # result = cursor.fetchall()
+    # reg_coun=result[0][0]
+    # print(reg_coun)  
+    # data = cursor.fetchall()
     Total_count=Applicants.objects.all().count()
+    # Total_count = cursor.excute("SELECT count(chipcode1) FROM Applicants")
+    # Total_count = cursor.fetchall()
+    # Total_count=result[0][0]
+    # print(Total_count)
     Remaining= Applicants.objects.exclude(chipcode1__isnull=False).count()
+    # Remaining = cursor.execute("SELECT count(chipcode1) FROM Applicants where chipcode1 IS NOT NULL")
+    # data = cursor.fetchall()
+    # Remaining=data[0][0]
+    # db .commit()
+    # db .close()
+    # return render(request,'Dash_board.html',{'reg_count':reg_coun,'Remaining':Remaining})
     return render(request,'Dash_board.html',{'Total_count':Total_count,'reg_count':reg_count,'Remaining': Remaining})
 
 
@@ -56,6 +84,7 @@ def add1(request):
                     res1=res.upper() 
                     token = candidate_photo.objects.filter(pk=val).update(token=res1 )
                     candidate_data = candidate_photo.objects.get(pk=val)
+                    # candidate_data = "SELECT Bib_R1 FROM registrationdb where rollno=val"
                
                     return render(request,'today-2.html',{'result': applicant,'result_photo': candidate_data})
                     
@@ -83,7 +112,7 @@ def chipdata(request):
         f0ggy.write(base64data)
         # f0ggy.write(encrypted)
         # f0ggy.close()
-        threshold = 350.0
+        threshold = 2500.0
         image = cv2.imread("D:/Django-crud-application-master/images/"+ val+".jpg")
         # image = cv2.imread(base64data)
         # image = cv2.imdecode(np.fromstring(base64data, np.uint8), cv2.IMREAD_COLOR)
@@ -102,14 +131,15 @@ def chipdata(request):
                     if fm >= threshold:
                                 print(fm)
                                 print("BiB was already used")
-                                if BiB and Chipcode1 and Chipcode2 != None or 0 :
-                                    chipdata=Applicants.objects.filter(pk=val).update(BIB=BiB,chipcode1=Chipcode1,chipcode2=Chipcode2)
-                                    print("chipdata=",chipdata)
+                                # if BiB and Chipcode1 and Chipcode2 != None or 0 :
+                              
+                                chipdata=Applicants.objects.filter(pk=val).update(BIB=BiB,chipcode1=Chipcode1,chipcode2=Chipcode2)
+                                print("chipdata=",chipdata)
                                     
                                     # messages.add_message(request,messages.SUCCESS," photo is not clear ")
-                                    candidate_image = candidate_photo.objects.filter(pk=val).update(candidate_photo=imagedata)
-                                    print("candidate_image===",candidate_image)
-                                    text = "Not Blurry"
+                                candidate_image = candidate_photo.objects.filter(pk=val).update(candidate_photo=imagedata)
+                                print("candidate_image===",candidate_image)
+                                text = "Not Blurry"
                                     # cv2.putText(faces, "{}: {:.2f}".format(text, fm), (10, 30),
                                     #             cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 3)
                                     # cv2.imshow("Image",faces)
@@ -128,26 +158,26 @@ def chipdata(request):
                                     
                                     # # file2.write(decrypted)
                                     # f0ggy.close()
-                                    file = open('D:/Django-crud-application-master/images/'+ val+'.jpg', 'rb')
-                                    image=file.read()
+                                file = open('D:/Django-crud-application-master/images/'+ val+'.jpg', 'rb')
+                                image=file.read()
                                     # file.close()
 
-                                    image=bytearray(image)
-                                    key=230
-                                    for i ,j in enumerate(image):
+                                image=bytearray(image)
+                                key=230
+                                for i ,j in enumerate(image):
                                         image[i] = j^key
-                                    file=open('D:/Django-crud-application-master/images/'+ val+'.jpg','wb')
-                                    file.truncate(0)
-                                    file.write(image)
-                                    file.close()
+                                file=open('D:/Django-crud-application-master/images/'+ val+'.jpg','wb')
+                                file.truncate(0)
+                                file.write(image)
+                                file.close()
 
-                                    return render(request,'today-2.html')
-                                else :
+                                # return render(request,'today-2.html')
+                                # else :
                                     
-                                    alertmessage = "chipdata not to be empty "
-                                    messages.error(request, ' enter chip data')
-                                    print("enter chip data")
-                                    return render(request,'today-2.html')
+                                alertmessage = "chipdata not to be empty "
+                                messages.error(request, ' enter chip data')
+                                print("enter chip data")
+                                return render(request,'today-2.html')
 
                     else:
                             print(fm)
